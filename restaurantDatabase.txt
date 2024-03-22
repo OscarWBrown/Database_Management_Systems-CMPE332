@@ -1,0 +1,64 @@
+DROP DATABASE IF EXISTS restaurantDB;
+CREATE DATABASE restaurantDB;
+
+CREATE TABLE restaurantFranchise(
+    URL				varChar(100) NOT NULL,
+    name			varChar(30) NOT NULL,
+    address			varChar(50) NOT NULL, 
+    PRIMARY KEY (URL)
+);
+    
+CREATE TABLE employee(
+	employeeID		int NOT NULL, 
+    email			varChar(30), 
+    firstName		varChar(20) NOT NULL,
+    lastName		varChar(20) NOT NULL,
+    position		varChar(10) NOT NULL,									-- what to do for position types (server, chef, management, delivery driver)?
+    PRIMARY KEY (employeeID)
+);
+
+CREATE TABLE customer(
+    email			varChar(30) NOT NULL, 
+    firstName		varChar(20) NOT NULL, 
+    lastName		varChar(20) NOT NULL, 
+    phoneNo			int, 
+    ZIP				varChar(6) NOT NULL, 
+    city			varChar(20) NOT NULL, 
+    street			varChar(20) NOT NULL,									-- combine ZIP, street, city into address?
+    PRIMARY KEY (email)
+);
+
+CREATE TABLE currentSchedule(
+    days			varChar(10) NOT NULL, 
+    startTime		varChar(10) NOT NULL, 
+    endTime			varChar(10) NOT NULL,
+    employeeWorking	varChar(10) NOT NULL,
+    PRIMARY KEY (days),
+    FOREIGN KEY (employeeWorking) REFERENCES employee (firstname, lastname)	-- does this work
+);
+
+CREATE TABLE customerAccount(
+    credit			decimal(4,2),
+    paymentAmount	decimal(4,2),
+    paymentTime		varChar(10),
+    paymentDay		varChar(10),
+    paymentYear		varChar(10),
+    PRIMARY KEY (paymentTime, paymentDate, paymentYear, paymentAmount)
+    
+);
+
+CREATE TABLE orders(
+	tip				decimal(4,2),
+    price			decimal(4,2) NOT NULL,
+    items			varChar(30) NOT NULL,
+    placementTime	varChar(10) NOT NULL,
+    deliveryTime	varChar(10) NOT NULL,
+    orderID			int,
+    PRIMARY KEY (orderID)
+);
+
+CREATE TABLE menu(
+    item			varChar(30) NOT NULL,									-- could be multiple items
+    price			decimal(3,2) NOT NULL,
+    PRIMARY KEY (item)
+);
